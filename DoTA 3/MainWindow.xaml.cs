@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using Microsoft.Win32;
+using System.IO;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -16,88 +18,60 @@ namespace DoTA_3
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
+
     {
-        //функция в основном теле программы
-        public void DrawLine(Point2D p1, Point2D p2)
+
+        List<EnemyIcon> enemyIcons = new List<EnemyIcon>();  // ← вот это
+        public void LoadIconsFromFolder(string path)
         {
-            //Создание новой линии
-            Line line = new Line();
-            //Цвет и толщина линии
-            line.Stroke = Brushes.Red;
-            line.StrokeThickness = 3;
-            //Установка координат линии из координат точек Point2D
-            line.X1 = p1.X;
-            line.Y1 = p1.Y;
-            line.X2 = p2.X;
-            line.Y2 = p2.Y;
-            //Добавление линии в Canvas
-            Scene.Children.Add(line);
+            //фильтр расширения изображения
+            string filter = "*.png";
+            //получение массива строк содержащих пути до изображений
+            string[] files = Directory.GetFiles(path, filter);
+            //перебор всех полученных путей
+            //в file содержится путь до изображения с расширением .png
+            foreach (string file in files)
+            {
+                enemyIcons.Add(
+                new EnemyIcon
+                {
+                    // получение имени файла с расширением
+                    Name = System.IO.Path.GetFileName(file),
+                    // получение полного пути до файла
+                    ImagePath = file
+                }
+                );
+            }
         }
-        Triangle tr;
-        Rectangle rc;
-        Random rnd = new Random();
+        private void BtnLoadIcons_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFolderDialog dlg = new OpenFolderDialog();
+            dlg.Title = "Выберите папку с иконками";
+
+            if (dlg.ShowDialog() == true)
+            {
+                enemyIcons.Clear();   // очищаем старый список
+                LoadIconsFromFolder(dlg.FolderName);
+                MessageBox.Show($"Загружено иконок: {enemyIcons.Count}");
+            }
+        }
         public MainWindow()
         {
             InitializeComponent();
-            //Создание треугольника со случайными координатами
-            Point2D p1 = new Point2D(rnd.Next(0, (int)Scene.Width), rnd.Next(0, (int)Scene.Height));
-            Point2D p2 = new Point2D(rnd.Next(0, (int)Scene.Width), rnd.Next(0, (int)Scene.Height));
-            Point2D p3 = new Point2D(rnd.Next(0, (int)Scene.Width), rnd.Next(0, (int)Scene.Height));
-            Point2D p4 = new Point2D(rnd.Next(0, (int)Scene.Width), rnd.Next(0, (int)Scene.Height));
-            tr = new Triangle(p1, p2, p3);
-            int width = rnd.Next(50, 200);
-            int height = rnd.Next(50, 200);
-            Point2D start = new Point2D(
-                rnd.Next(0, (int)Scene.Width - width),
-                rnd.Next(0, (int)Scene.Height - height)
-            );
-            rc = new Rectangle(start, width, height);
-        }
-        public void DrawTriangle(Triangle tr)
-        {
-            //Отрисовка треугольника с помощью функции отрисовки линии
-            DrawLine(tr.P1, tr.P2);
-            DrawLine(tr.P2, tr.P3);
-            DrawLine(tr.P3, tr.P1);
-        }
-        public void DrawRectangle(Rectangle rc)
-        {
-            //Отрисовка треугольника с помощью функции отрисовки линии
-            DrawLine(rc.P1, rc.P2);
-            DrawLine(rc.P2, rc.P3);
-            DrawLine(rc.P3, rc.P4);
-            DrawLine(rc.P4, rc.P1);
-        }
-        public void ClearScene()
-        {
-            //Очистка Canvas от всех объектов
-            Scene.Children.Clear();
-        }
-        private void BtnTriangle_Click(object sender, RoutedEventArgs e)
-        {
-            ClearScene();   // стираем старое
+            List<EnemyIcon> enemyIcons = new List<EnemyIcon>();
+            CEnemyTemplateList list = new CEnemyTemplateList();
+            list.AddEnemy("Axe", "Axe.png", 100, 1.0, 10, 1.0, 0.5);
+            list.AddEnemy("Ork", "ork.png", 200, 1.2, 20, 1.1, 0.3);
 
-            Random rnd = new Random();
-            Point2D p1 = new Point2D(rnd.Next(0, (int)Scene.Width), rnd.Next(0, (int)Scene.Height));
-            Point2D p2 = new Point2D(rnd.Next(0, (int)Scene.Width), rnd.Next(0, (int)Scene.Height));
-            Point2D p3 = new Point2D(rnd.Next(0, (int)Scene.Width), rnd.Next(0, (int)Scene.Height));
+            list.SaveToJson("enemies.json");
+            list.LoadFromJson("enemies.json");
+            //MessageBox.Show($"Загружено противников: {list.GetListOfEnemyNames().Count}");
+            EnemyIcon icon = new EnemyIcon();
+            icon.Name = "Axe.png";
+            icon.ImagePath = @"C:\Users\Владимир\source\repos\DoTA 3\DoTA 3\Icons\EnemyIcons\Axe.png";
 
-            Triangle tr = new Triangle(p1, p2, p3);
-            DrawTriangle(tr);
+            //MessageBox.Show($"Иконка: {icon.Name}, путь: {icon.ImagePath}");
         }
-        private void BtnRectangle_Click(object sender, RoutedEventArgs e)
-        {
-            ClearScene();
 
-            int width = rnd.Next(50, 200);
-            int height = rnd.Next(50, 200);
-            Point2D start = new Point2D(
-                rnd.Next(0, (int)Scene.Width - width),
-                rnd.Next(0, (int)Scene.Height - height)
-            );
-
-            Rectangle rc = new Rectangle(start, width, height);
-            DrawRectangle(rc);
-        }
     }
 }

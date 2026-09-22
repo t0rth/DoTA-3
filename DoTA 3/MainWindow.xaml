@@ -12,7 +12,6 @@
 VerticalAlignment="Center" Width="680"/>
 
         </Grid>
-        <Button Content="Произвольный треугольник" Click="BtnTriangle_Click" Margin="282,330,341,62"/>
-        <Button Content="Произвольные 4 угла" Click="BtnRectangle_Click" Margin="100,330,523,62"/>
+        <Button Content="Загрузить иконки" Click="BtnLoadIcons_Click" Margin="276,380,276,0"/>
     </Grid>
 </Window>
