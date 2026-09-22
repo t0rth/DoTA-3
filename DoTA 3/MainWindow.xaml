@@ -12,5 +12,6 @@
 VerticalAlignment="Center" Width="680"/>
 
         </Grid>
+        <Button Content="Загрузить иконки" Click="BtnLoadIcons_Click" Margin="276,380,276,0"/>
     </Grid>
 </Window>
