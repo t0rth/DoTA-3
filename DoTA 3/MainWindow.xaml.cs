@@ -20,6 +20,7 @@ namespace DoTA_3
     public partial class MainWindow : Window
 
     {
+        string selectedIconName = "";
 
         List<EnemyIcon> enemyIcons = new List<EnemyIcon>();  // ← вот это
         public void LoadIconsFromFolder(string path)
@@ -43,6 +44,21 @@ namespace DoTA_3
                 );
             }
         }
+        public void ShowIcons()
+        {
+            IconsListBox.Items.Clear();  // очищаем старые иконки
+
+            foreach (EnemyIcon icon in enemyIcons)
+            {
+                Image image = new Image()
+                {
+                    Source = new BitmapImage(new Uri(icon.ImagePath)),
+                    Height = 64
+                };
+
+                IconsListBox.Items.Add(image);
+            }
+        }
         private void BtnLoadIcons_Click(object sender, RoutedEventArgs e)
         {
             OpenFolderDialog dlg = new OpenFolderDialog();
@@ -52,25 +68,30 @@ namespace DoTA_3
             {
                 enemyIcons.Clear();   // очищаем старый список
                 LoadIconsFromFolder(dlg.FolderName);
+                ShowIcons();   // ← вот здесь
                 MessageBox.Show($"Загружено иконок: {enemyIcons.Count}");
             }
         }
+        private void IconsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            // приводим sender к типу ListBox
+            ListBox iconHolder = sender as ListBox;
+
+            // проверяем, что выбран именно Image (и что выбор вообще есть)
+            if (iconHolder.SelectedItem is Image selectedImage && iconHolder.SelectedItem != null)
+            {
+                // Source — это Uri, поэтому получаем имя файла через ToString + Path.GetFileName
+                string iconName = System.IO.Path.GetFileName(selectedImage.Source.ToString());
+                selectedIconName = iconName;
+                MessageBox.Show($"Выбрана иконка: {selectedIconName}");
+                // сохраняем имя иконки в шаблон противника
+            }
+        }
+
         public MainWindow()
         {
             InitializeComponent();
-            List<EnemyIcon> enemyIcons = new List<EnemyIcon>();
-            CEnemyTemplateList list = new CEnemyTemplateList();
-            list.AddEnemy("Axe", "Axe.png", 100, 1.0, 10, 1.0, 0.5);
-            list.AddEnemy("Ork", "ork.png", 200, 1.2, 20, 1.1, 0.3);
 
-            list.SaveToJson("enemies.json");
-            list.LoadFromJson("enemies.json");
-            //MessageBox.Show($"Загружено противников: {list.GetListOfEnemyNames().Count}");
-            EnemyIcon icon = new EnemyIcon();
-            icon.Name = "Axe.png";
-            icon.ImagePath = @"C:\Users\Владимир\source\repos\DoTA 3\DoTA 3\Icons\EnemyIcons\Axe.png";
-
-            //MessageBox.Show($"Иконка: {icon.Name}, путь: {icon.ImagePath}");
         }
 
     }
