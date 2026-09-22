@@ -57,5 +57,28 @@ namespace DoTA_3
                                                goldModifier, spawnChance));
             }
         }
+        public void DeleteEnemyByName(string name)
+        {
+            // Ищем противника с таким именем
+            for (int i = 0; i < enemies.Count; i++)
+            {
+                if (enemies[i].Name == name)
+                {
+                    enemies.RemoveAt(i);
+                    return;   // нашли и удалили — выходим
+                }
+            }
+        }
+        public CEnemyTemplate GetEnemyByName(string name)
+        {
+            foreach (CEnemyTemplate enemy in enemies)
+            {
+                if (enemy.Name == name)
+                {
+                    return enemy;
+                }
+            }
+            return null;   // не нашли
+        }
     }
 }

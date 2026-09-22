@@ -7,4 +7,5 @@
         // полный путь до иконки
         public string ImagePath { get; set; }
     }
+
 }

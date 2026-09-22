@@ -5,16 +5,76 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DoTA_3"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="800" Width="1400">
     <Grid>
-        <Grid>
-            <Canvas x:Name="Scene" HorizontalAlignment="Left" Height="400" Margin="15,0,0,0"
-VerticalAlignment="Center" Width="680"/>
+        <!-- Холст / сетка иконок -->
+        <ListBox Name="IconsListBox" Width="289" Margin="1072,109,0,25"
+             SelectionChanged="IconsListBox_SelectionChanged"
+             HorizontalAlignment="Left"/>
 
-        </Grid>
-        <ListBox Margin="200,20,199,84"
-         Name="IconsListBox"
-         SelectionChanged="IconsListBox_SelectionChanged"/>
-        <Button Content="Загрузить иконки" Click="BtnLoadIcons_Click" Margin="276,380,276,0"/>
+        <!-- Список добавленных противников -->
+        <ListBox Name="EnemiesListBox" SelectionChanged="EnemiesListBox_SelectionChanged" Width="200"
+             Margin="38,130,0,106" HorizontalAlignment="Left"/>
+
+
+        <!-- Поля ввода -->
+        <StackPanel Margin="549,138,0,355" HorizontalAlignment="Left" Width="230">
+            <TextBlock Text="Enemy Name"/>
+            <TextBox Name="NameTextBox"/>
+
+            <TextBlock Text="Icon Name"/>
+            <TextBox Name="IconNameTextBox"/>
+
+            <TextBlock Text="Base life"/>
+            <TextBox Name="BaseLifeTextBox"/>
+
+            <TextBlock Text="Base gold"/>
+            <TextBox Name="BaseGoldTextBox"/>
+
+            <TextBlock Text="Life modifier"/>
+            <TextBox Name="LifeModTextBox"/>
+
+            <TextBlock Text="Gold modifier"/>
+            <TextBox Name="GoldModTextBox"/>
+
+            <TextBlock Text="Spawn chance"/>
+            <TextBox Name="SpawnChanceTextBox"/>
+        </StackPanel>
+        <StackPanel Name="DetailsPanel" Margin="0,65,903,279"
+            HorizontalAlignment="Right" Width="200">
+
+            <Image Name="MainEnemyIcon" Height="96" Margin="0,0,0,10"/>
+
+            <TextBlock Text="Name:" FontWeight="Bold"/>
+            <TextBlock Name="DetailName"/>
+
+            <TextBlock Text="Icon:" FontWeight="Bold"/>
+            <TextBlock Name="DetailIconName"/>
+
+            <TextBlock Text="Base life:" FontWeight="Bold"/>
+            <TextBlock Name="DetailBaseLife"/>
+
+            <TextBlock Text="Life modifier:" FontWeight="Bold"/>
+            <TextBlock Name="DetailLifeMod"/>
+
+            <TextBlock Text="Base gold:" FontWeight="Bold"/>
+            <TextBlock Name="DetailBaseGold"/>
+
+            <TextBlock Text="Gold modifier:" FontWeight="Bold"/>
+            <TextBlock Name="DetailGoldMod"/>
+
+            <TextBlock Text="Spawn chance:" FontWeight="Bold"/>
+            <TextBlock Name="DetailSpawnChance"/>
+        </StackPanel>
+
+        <!-- Кнопки -->
+        <StackPanel Orientation="Vertical" Margin="568,484,0,79" HorizontalAlignment="Left" Width="168">
+            <Button Content="Добавить юнита"    Click="BtnAdd_Click"    Width="100" Margin="0,5"/>
+            <Button Content="Удалить юнита" Click="BtnRemove_Click" Width="100" Margin="0,5"/>
+            <Button Content="Сохранить Json"   Click="BtnSave_Click"   Width="100" Margin="0,5"/>
+            <Button Content="Загрузить Json"   Click="BtnLoad_Click"   Width="100" Margin="0,5"/>
+            <Button Content="Загрузить иконки" Click="BtnLoadIcons_Click" Width="115" Height="33"/>
+        </StackPanel>
+
     </Grid>
 </Window>
