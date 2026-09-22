@@ -211,7 +211,7 @@ namespace DoTA_3
             InitializeComponent();
             CEnemyTemplateList enemyList = new CEnemyTemplateList();
             string content = File.ReadAllText("enemies.json");
-            MessageBox.Show(content);
+            //MessageBox.Show(content);
 
         }
 
