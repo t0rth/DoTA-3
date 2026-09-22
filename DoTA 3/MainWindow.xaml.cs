@@ -47,13 +47,17 @@ namespace DoTA_3
             InitializeComponent();
 
             CEnemyTemplateList list = new CEnemyTemplateList();
-            list.AddEnemy("Goblin", "goblin.png", 100, 1.0, 10, 1.0, 0.5);
+            list.AddEnemy("Axe", "Axe.png", 100, 1.0, 10, 1.0, 0.5);
             list.AddEnemy("Ork", "ork.png", 200, 1.2, 20, 1.1, 0.3);
 
             list.SaveToJson("enemies.json");
             list.LoadFromJson("enemies.json");
             MessageBox.Show($"Загружено противников: {list.GetListOfEnemyNames().Count}");
+            EnemyIcon icon = new EnemyIcon();
+            icon.Name = "Axe.png";
+            icon.ImagePath = @"C:\Users\Владимир\source\repos\DoTA 3\DoTA 3\Icons\EnemyIcons\Axe.png";
 
+            MessageBox.Show($"Иконка: {icon.Name}, путь: {icon.ImagePath}");
         }
 
     }
