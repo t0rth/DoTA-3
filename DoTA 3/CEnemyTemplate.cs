@@ -24,5 +24,16 @@ namespace DoTA_3
             GoldModifier = goldModifier;
             SpawnChance = spawnChance;
         }
+        public void Update(string name, string iconName, int baseLife,
+    double lifeModifier, int baseGold, double goldModifier, double spawnChance)
+        {
+            Name = name;
+            IconName = iconName;
+            BaseLife = baseLife;
+            LifeModifier = lifeModifier;
+            BaseGold = baseGold;
+            GoldModifier = goldModifier;
+            SpawnChance = spawnChance;
+        }
     }
 }
