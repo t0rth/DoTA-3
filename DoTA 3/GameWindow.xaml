@@ -1,0 +1,45 @@
+﻿<Window x:Class="DoTA_3.GameWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="DoTA Clicker — Игра" Height="400" Width="700"
+        WindowStartupLocation="CenterScreen">
+    <Grid>
+        <!-- Левая часть: враг -->
+        <StackPanel Margin="10,10,0,0" HorizontalAlignment="Left" Width="200">
+            <TextBlock Text="Enemy name:" FontWeight="Bold"/>
+            <TextBlock Name="EnemyNameText"/>
+
+            <TextBlock Text="Enemy HP:" FontWeight="Bold" Margin="0,10,0,0"/>
+            <TextBlock Name="EnemyHPText"/>
+
+            <TextBlock Text="Gold from enemy:" FontWeight="Bold" Margin="0,10,0,0"/>
+            <TextBlock Name="EnemyGoldText"/>
+        </StackPanel>
+
+        <!-- Центр: иконка врага -->
+        <Image Name="EnemyIconImage"
+               Width="150" Height="150"
+               HorizontalAlignment="Center" VerticalAlignment="Center"
+               MouseLeftButtonDown="EnemyIcon_Click"
+               Cursor="Hand"/>
+
+        <!-- Правая часть: игрок -->
+        <StackPanel Margin="0,10,10,0" HorizontalAlignment="Right" Width="200">
+            <TextBlock Text="Player gold:" FontWeight="Bold"/>
+            <TextBlock Name="PlayerGoldText"/>
+
+            <TextBlock Text="Player damage:" FontWeight="Bold" Margin="0,10,0,0"/>
+            <TextBlock Name="PlayerDamageText"/>
+
+            <TextBlock Text="Level:" FontWeight="Bold" Margin="0,10,0,0"/>
+            <TextBlock Name="LevelText"/>
+
+            <TextBlock Text="Upgrade cost:" FontWeight="Bold" Margin="0,10,0,0"/>
+            <TextBlock Name="UpgradeCostText"/>
+
+            <Button Content="Upgrade" Name="BtnUpgrade"
+                    Click="BtnUpgrade_Click"
+                    Margin="0,10,0,0" Width="100"/>
+        </StackPanel>
+    </Grid>
+</Window>

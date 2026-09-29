@@ -1,46 +1,86 @@
-﻿using System.Text.Json;
+﻿using System.Collections.Generic;
 using System.IO;
+using System.Text.Json;
 
 namespace DoTA_3
 {
     public class CEnemyTemplateList
     {
-        //Список противников из класса CEnemyTemplate
+        // ---------- ПОЛЯ ----------
         List<CEnemyTemplate> enemies;
+        List<double> normalizedChances = new List<double>();
+
+        // ---------- КОНСТРУКТОР ----------
         public CEnemyTemplateList()
         {
             enemies = new List<CEnemyTemplate>();
         }
-        public void SaveToJson(string path)
-        {
-            string jsonString = JsonSerializer.Serialize(enemies);
-            File.WriteAllText(path, jsonString);
-        }
+
+        // ---------- ДОБАВЛЕНИЕ / УДАЛЕНИЕ ----------
 
         public void AddEnemy(string name, string iconName, int baseLife,
-                     double lifeModifier, int baseGold,
-                     double goldModifier, double spawnChance)
+            double lifeModifier, int baseGold,
+            double goldModifier, double spawnChance)
         {
             enemies.Add(new CEnemyTemplate(name, iconName, baseLife,
-                                           lifeModifier, baseGold,
-                                           goldModifier, spawnChance));
+                lifeModifier, baseGold, goldModifier, spawnChance));
         }
+
+        public void DeleteEnemyByName(string name)
+        {
+            for (int i = 0; i < enemies.Count; i++)
+            {
+                if (enemies[i].Name == name)
+                {
+                    enemies.RemoveAt(i);
+                    return;
+                }
+            }
+        }
+
+        public void DeleteEnemyByIndex(int id)
+        {
+            if (id < 0 || id >= enemies.Count) return;
+            enemies.RemoveAt(id);
+        }
+
+        // ---------- ПОИСК ----------
+
+        public CEnemyTemplate GetEnemyByName(string name)
+        {
+            foreach (CEnemyTemplate enemy in enemies)
+            {
+                if (enemy.Name == name) return enemy;
+            }
+            return null;
+        }
+
+        public CEnemyTemplate GetEnemyByIndex(int id)
+        {
+            if (id < 0 || id >= enemies.Count) return null;
+            return enemies[id];
+        }
+
         public List<string> GetListOfEnemyNames()
         {
             List<string> names = new List<string>();
-            foreach (CEnemyTemplate enemy in enemies)
-            {
-                names.Add(enemy.Name);
-            }
+            foreach (CEnemyTemplate e in enemies) names.Add(e.Name);
             return names;
+        }
+
+        // ---------- JSON ----------
+
+        public void SaveToJson(string path)
+        {
+            string json = JsonSerializer.Serialize(enemies);
+            File.WriteAllText(path, json);
         }
 
         public void LoadFromJson(string path)
         {
-            string jsonFromFile = File.ReadAllText(path);
-            JsonDocument doc = JsonDocument.Parse(jsonFromFile);
-
-            enemies.Clear();  // очищаем текущий список, чтобы не дублировать
+            string json = File.ReadAllText(path);
+            JsonDocument doc = JsonDocument.Parse(json);
+            enemies.Clear();
 
             foreach (JsonElement element in doc.RootElement.EnumerateArray())
             {
@@ -53,32 +93,39 @@ namespace DoTA_3
                 double spawnChance = element.GetProperty("SpawnChance").GetDouble();
 
                 enemies.Add(new CEnemyTemplate(name, iconName, baseLife,
-                                               lifeModifier, baseGold,
-                                               goldModifier, spawnChance));
+                    lifeModifier, baseGold, goldModifier, spawnChance));
             }
         }
-        public void DeleteEnemyByName(string name)
+
+        // ---------- НОРМАЛИЗАЦИЯ ШАНСОВ И ВЫБОР ВРАГА ----------
+
+        public void NormalizeChances()
         {
-            // Ищем противника с таким именем
+            normalizedChances.Clear();
+
+            if (enemies.Count == 0) return;
+
+            double sum = 0;
+            for (int i = 0; i < enemies.Count; i++)
+                sum += enemies[i].SpawnChance;
+
+            if (sum == 0) return;   // защита от деления на ноль
+
+            for (int i = 0; i < enemies.Count; i++)
+                normalizedChances.Add(enemies[i].SpawnChance / sum);
+        }
+
+        public CEnemyTemplate FindByChance(double chance)
+        {
+            if (enemies.Count == 0) return null;
+
+            double sum = 0;
             for (int i = 0; i < enemies.Count; i++)
             {
-                if (enemies[i].Name == name)
-                {
-                    enemies.RemoveAt(i);
-                    return;   // нашли и удалили — выходим
-                }
+                sum += normalizedChances[i];
+                if (sum >= chance) return enemies[i];
             }
-        }
-        public CEnemyTemplate GetEnemyByName(string name)
-        {
-            foreach (CEnemyTemplate enemy in enemies)
-            {
-                if (enemy.Name == name)
-                {
-                    return enemy;
-                }
-            }
-            return null;   // не нашли
+            return null;
         }
     }
 }
