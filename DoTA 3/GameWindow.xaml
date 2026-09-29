@@ -6,13 +6,13 @@
     <Grid>
         <!-- Левая часть: враг -->
         <StackPanel Margin="10,10,0,0" HorizontalAlignment="Left" Width="200">
-            <TextBlock Text="Enemy name:" FontWeight="Bold"/>
+            <TextBlock Text="Имя врага:" FontWeight="Bold"/>
             <TextBlock Name="EnemyNameText"/>
 
-            <TextBlock Text="Enemy HP:" FontWeight="Bold" Margin="0,10,0,0"/>
+            <TextBlock Text="HP врага:" FontWeight="Bold" Margin="0,10,0,0"/>
             <TextBlock Name="EnemyHPText"/>
 
-            <TextBlock Text="Gold from enemy:" FontWeight="Bold" Margin="0,10,0,0"/>
+            <TextBlock Text="Награда за победу:" FontWeight="Bold" Margin="0,10,0,0"/>
             <TextBlock Name="EnemyGoldText"/>
         </StackPanel>
 
@@ -25,19 +25,19 @@
 
         <!-- Правая часть: игрок -->
         <StackPanel Margin="0,10,10,0" HorizontalAlignment="Right" Width="200">
-            <TextBlock Text="Player gold:" FontWeight="Bold"/>
+            <TextBlock Text="Ваше золото:" FontWeight="Bold"/>
             <TextBlock Name="PlayerGoldText"/>
 
-            <TextBlock Text="Player damage:" FontWeight="Bold" Margin="0,10,0,0"/>
+            <TextBlock Text="DMG:" FontWeight="Bold" Margin="0,10,0,0"/>
             <TextBlock Name="PlayerDamageText"/>
 
-            <TextBlock Text="Level:" FontWeight="Bold" Margin="0,10,0,0"/>
+            <TextBlock Text="LVL:" FontWeight="Bold" Margin="0,10,0,0"/>
             <TextBlock Name="LevelText"/>
 
-            <TextBlock Text="Upgrade cost:" FontWeight="Bold" Margin="0,10,0,0"/>
+            <TextBlock Text="Стоимость улучшения:" FontWeight="Bold" Margin="0,10,0,0"/>
             <TextBlock Name="UpgradeCostText"/>
 
-            <Button Content="Upgrade" Name="BtnUpgrade"
+            <Button Content="Улучшить" Name="BtnUpgrade"
                     Click="BtnUpgrade_Click"
                     Margin="0,10,0,0" Width="100"/>
         </StackPanel>
