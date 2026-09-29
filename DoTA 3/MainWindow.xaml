@@ -18,7 +18,7 @@
 
 
         <!-- Поля ввода -->
-        <StackPanel Margin="549,138,0,355" HorizontalAlignment="Left" Width="230">
+        <StackPanel Margin="537,188,0,305" HorizontalAlignment="Left" Width="230">
             <TextBlock Text="Enemy Name"/>
             <TextBox Name="NameTextBox"/>
 
@@ -40,40 +40,23 @@
             <TextBlock Text="Spawn chance"/>
             <TextBox Name="SpawnChanceTextBox"/>
         </StackPanel>
-        <StackPanel Name="DetailsPanel" Margin="0,65,903,279"
+        <StackPanel Name="DetailsPanel" Margin="0,67,648,601"
             HorizontalAlignment="Right" Width="200">
-
-            <Image Name="MainEnemyIcon" Height="96" Margin="0,0,0,10"/>
-
-            <TextBlock Text="Name:" FontWeight="Bold"/>
-            <TextBlock Name="DetailName"/>
-
-            <TextBlock Text="Icon:" FontWeight="Bold"/>
-            <TextBlock Name="DetailIconName"/>
-
-            <TextBlock Text="Base life:" FontWeight="Bold"/>
-            <TextBlock Name="DetailBaseLife"/>
-
-            <TextBlock Text="Life modifier:" FontWeight="Bold"/>
-            <TextBlock Name="DetailLifeMod"/>
-
-            <TextBlock Text="Base gold:" FontWeight="Bold"/>
-            <TextBlock Name="DetailBaseGold"/>
-
-            <TextBlock Text="Gold modifier:" FontWeight="Bold"/>
-            <TextBlock Name="DetailGoldMod"/>
-
-            <TextBlock Text="Spawn chance:" FontWeight="Bold"/>
-            <TextBlock Name="DetailSpawnChance"/>
+            <Image x:Name="MainEnemyIcon" Height="96"/>
         </StackPanel>
 
         <!-- Кнопки -->
-        <StackPanel Orientation="Vertical" Margin="568,484,0,79" HorizontalAlignment="Left" Width="168">
+        <StackPanel Orientation="Vertical" Margin="568,484,0,25" HorizontalAlignment="Left" Width="168">
             <Button Content="Добавить юнита"    Click="BtnAdd_Click"    Width="100" Margin="0,5"/>
             <Button Content="Удалить юнита" Click="BtnRemove_Click" Width="100" Margin="0,5"/>
             <Button Content="Сохранить Json"   Click="BtnSave_Click"   Width="100" Margin="0,5"/>
             <Button Content="Загрузить Json"   Click="BtnLoad_Click"   Width="100" Margin="0,5"/>
-            <Button Content="Загрузить иконки" Click="BtnLoadIcons_Click" Width="115" Height="33"/>
+            <Button Content="Загрузить иконки" Click="BtnLoadIcons_Click" Width="100" Margin="0,5"/>
+            <TextBlock Margin="1,10,0,2" Width="53">
+Редактор
+            </TextBlock>
+            <Button Content="Сохранить" Click="BtnSaveChanges_Click" Width="100" Margin="0,5" IsEnabled="False" Name="BtnSaveChanges"/>
+            <Button Content="Отмена"       Click="BtnCancel_Click"       Width="100" Margin="0,5" IsEnabled="False" Name="BtnCancel"/>
         </StackPanel>
 
     </Grid>

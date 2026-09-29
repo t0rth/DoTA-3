@@ -65,25 +65,28 @@ namespace DoTA_3
             if (EnemiesListBox.SelectedItem == null) return;
 
             string selectedName = EnemiesListBox.SelectedItem.ToString();
-
             CEnemyTemplate enemy = enemyList.GetEnemyByName(selectedName);
             if (enemy == null) return;
 
-            // Заполняем поля
-            DetailName.Text = enemy.Name;
-            DetailIconName.Text = enemy.IconName;
-            DetailBaseLife.Text = enemy.BaseLife.ToString();
-            DetailLifeMod.Text = enemy.LifeModifier.ToString();
-            DetailBaseGold.Text = enemy.BaseGold.ToString();
-            DetailGoldMod.Text = enemy.GoldModifier.ToString();
-            DetailSpawnChance.Text = enemy.SpawnChance.ToString();
+            // заполняем поля формы
+            NameTextBox.Text = enemy.Name;
+            IconNameTextBox.Text = enemy.IconName;
+            BaseLifeTextBox.Text = enemy.BaseLife.ToString();
+            LifeModTextBox.Text = enemy.LifeModifier.ToString();
+            BaseGoldTextBox.Text = enemy.BaseGold.ToString();
+            GoldModTextBox.Text = enemy.GoldModifier.ToString();
+            SpawnChanceTextBox.Text = enemy.SpawnChance.ToString();
 
-            // Загружаем иконку
-            string iconPath = FindIconPath(enemy.IconName);
-            if (iconPath != null)
-            {
-                MainEnemyIcon.Source = new BitmapImage(new Uri(iconPath));
-            }
+            selectedIconName = enemy.IconName;
+
+            // активируем кнопки редактирования
+            BtnSaveChanges.IsEnabled = true;
+            BtnCancel.IsEnabled = true;
+
+            // показываем иконку в деталях (если есть)
+            string path = FindIconPath(enemy.IconName);
+            if (path != null && MainEnemyIcon != null)
+                MainEnemyIcon.Source = new BitmapImage(new Uri(path));
         }
         private string FindIconPath(string iconName)
         {
@@ -153,6 +156,7 @@ namespace DoTA_3
                 );
 
                 RefreshEnemiesList();
+                ClearForm();
 
                 // очистка полей
                 NameTextBox.Clear();
@@ -180,6 +184,7 @@ namespace DoTA_3
             string name = EnemiesListBox.SelectedItem.ToString();
             enemyList.DeleteEnemyByName(name);
             RefreshEnemiesList();
+            ClearForm();
         }
         private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
@@ -205,7 +210,57 @@ namespace DoTA_3
                 MessageBox.Show("Загружено");
             }
         }
+        private void BtnSaveChanges_Click(object sender, RoutedEventArgs e)
+        {
+            if (EnemiesListBox.SelectedItem == null) return;
 
+            string selectedName = EnemiesListBox.SelectedItem.ToString();
+            CEnemyTemplate enemy = enemyList.GetEnemyByName(selectedName);
+            if (enemy == null) return;
+
+            try
+            {
+                enemy.Update(
+                    NameTextBox.Text,
+                    selectedIconName,
+                    int.Parse(BaseLifeTextBox.Text),
+                    double.Parse(LifeModTextBox.Text),
+                    int.Parse(BaseGoldTextBox.Text),
+                    double.Parse(GoldModTextBox.Text),
+                    double.Parse(SpawnChanceTextBox.Text)
+                );
+
+                RefreshEnemiesList();
+                ClearForm();
+                MessageBox.Show("Изменения сохранены");
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Проверьте числовые поля");
+            }
+        }
+        private void BtnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            ClearForm();
+            EnemiesListBox.SelectedItem = null;   // снимаем выбор
+        }
+        private void ClearForm()
+        {
+            NameTextBox.Clear();
+            IconNameTextBox.Clear();
+            BaseLifeTextBox.Clear();
+            BaseGoldTextBox.Clear();
+            LifeModTextBox.Clear();
+            GoldModTextBox.Clear();
+            SpawnChanceTextBox.Clear();
+            selectedIconName = "";
+
+            if (MainEnemyIcon != null) MainEnemyIcon.Source = null;
+
+            // отключаем кнопки редактирования
+            BtnSaveChanges.IsEnabled = false;
+            BtnCancel.IsEnabled = false;
+        }
         public MainWindow()
         {
             InitializeComponent();
