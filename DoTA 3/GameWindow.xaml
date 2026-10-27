@@ -4,6 +4,9 @@
         Title="DoTA Clicker — Игра" Height="400" Width="700"
         WindowStartupLocation="CenterScreen">
     <Grid>
+        <Canvas Name="SphereCanvas" Background="Transparent" 
+                HorizontalAlignment="Center" VerticalAlignment="Top" 
+                Width="200" Height="200" IsHitTestVisible="True" Margin="0,106,0,0"/>
         <!-- Левая часть: враг -->
         <StackPanel Margin="10,10,0,0" HorizontalAlignment="Left" Width="200">
             <TextBlock Text="Имя врага:" FontWeight="Bold"/>
@@ -18,10 +21,10 @@
 
         <!-- Центр: иконка врага -->
         <Image Name="EnemyIconImage"
-               Width="150" Height="150"
-               HorizontalAlignment="Center" VerticalAlignment="Center"
+               Width="80" Height="67"
+               HorizontalAlignment="Left" VerticalAlignment="Top"
                MouseLeftButtonDown="EnemyIcon_Click"
-               Cursor="Hand"/>
+               Cursor="Hand" Margin="303,306,0,0"/>
 
         <!-- Правая часть: игрок -->
         <StackPanel Margin="0,10,10,0" HorizontalAlignment="Right" Width="200">
